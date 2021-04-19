@@ -1,7 +1,12 @@
 const cluster = require("cluster");
 const express = require("express");
 const metricsServer = express();
-const { AggregatorRegistry, register, Registry } = require("prom-client");
+const {
+  AggregatorRegistry,
+  register,
+  Registry,
+  collectDefaultMetrics,
+} = require("prom-client");
 const aggregatorRegistry = new AggregatorRegistry();
 
 const metrics = require("./metrics/app-counts");
@@ -52,5 +57,6 @@ if (cluster.isMaster) {
     "Cluster metrics server listening to 3001, metrics exposed on /cluster_metrics"
   );
 } else {
+  collectDefaultMetrics();
   require("./worker.js");
 }
