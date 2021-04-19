@@ -7,10 +7,11 @@ const {
   Registry,
   collectDefaultMetrics,
 } = require("prom-client");
-const aggregatorRegistry = new AggregatorRegistry();
 
-const metrics = require("./metrics/app-counts");
 const CPUS = require("os").cpus().length;
+
+const aggregatorRegistry = new AggregatorRegistry();
+const metrics = require("./metrics/app-counts");
 
 if (cluster.isMaster) {
   for (let i = 0; i < CPUS; i++) {
